@@ -4,6 +4,8 @@ import time
 from car import Car
 from pedestrian import Pedestrian
 from checkCollision import isCarCollided, pedLight1IsWalking
+from carLight1 import carTrafficLight1SignalSwitching
+from pedLight1 import pedTrafficLight1SignalSwitching
 
 pygame.init()
 
@@ -77,27 +79,11 @@ if __name__ == "__main__":
         rendered = sys_font.render("Car Record Line", 0, black)
         screen.blit(rendered, (res_x * 0.455, res_y * 0.48))
 
-        # carTrafficLight1SignalSwitching(carLight)
         # Car traffic light1 signal switching
-        def carTrafficLight1SignalSwitching(carLight1):
-
-            if carLight1 == "green":
-                pygame.draw.rect(screen, green, (res_x * 0.36, res_y * 0.79, 20, 20))
-            elif carLight1 == "greenToYellow" or carLight1 == "redToYellow":
-                pygame.draw.rect(screen, yellow, (res_x * 0.36, res_y * 0.79, 20, 20))
-            elif carLight1 == "red":
-                pygame.draw.rect(screen, red, (res_x * 0.36, res_y * 0.79, 20, 20))
+        carTrafficLight1SignalSwitching(carLight1, screen, res_x, res_y, green, yellow, red)
 
         # ped traffic light1 signal switching
-        if pedLight1 == "green":
-            pygame.draw.rect(screen, green, (res_x * 0.33, res_y * 0.8, 12, 12))
-        elif pedLight1 == "flashingGreen":
-            if ((int(time.time() - carLight1ChgTime)) % 2 > 0):
-                pygame.draw.rect(screen, darkGreen, (res_x * 0.33, res_y * 0.8, 12, 12))
-            else:
-                pygame.draw.rect(screen, black, (res_x * 0.33, res_y * 0.8, 12, 12))
-        elif pedLight1 == "red" or pedLight1 == "bufferRed":
-            pygame.draw.rect(screen, red, (res_x * 0.33, res_y * 0.8, 12, 12))
+        pedTrafficLight1SignalSwitching(pedLight1, screen, res_x, res_y, green, darkGreen, black, red, simStartTime)
 
         # Count traffic flow at junction
         carCountAtCarLight1 = 0
